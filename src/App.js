@@ -32,21 +32,22 @@ const App = () => {
       } else {
         const newTask = {
           ...task,
-          isComplete: !taskIsComplete,
+          isComplete: taskIsComplete,
         };
         newTaskList.push(newTask);
       }
     }
     setTaskList(newTaskList);
   };
-
   return (
     <div className="App">
       <header className="App-header">
         <h1>Ada&apos;s Task List</h1>
       </header>
       <main>
-        <div>{<TaskList tasks={taskList} />}</div>
+        <div>
+          <TaskList updateComplete={updateComplete} tasks={taskList} />
+        </div>
       </main>
     </div>
   );
