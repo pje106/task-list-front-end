@@ -4,11 +4,12 @@ import React from 'react';
 import './Task.css';
 
 const Task = (props) => {
+  const key = props.id;
   const taskId = props.id;
   const taskTitle = props.title;
   const isComplete = props.isComplete;
   const updateComplete = props.updateComplete;
-  const deleteTask=props.deleteTask;
+  const deleteTask = props.deleteTask;
 
   function changeComplete(complete) {
     updateComplete(taskId, complete);
@@ -24,10 +25,15 @@ const Task = (props) => {
         className={`tasks__item__toggle ${buttonClass}`}
         onClick={() => changeComplete(!isComplete)}
       >
-        {props.title}
+        {taskTitle}
       </button>
 
-      <button onClick={() => deleteTask(taskId)} className="tasks__item__remove button">x</button>
+      <button
+        onClick={() => deleteTask(taskId)}
+        className="tasks__item__remove button"
+      >
+        x
+      </button>
     </li>
   );
 };

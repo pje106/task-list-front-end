@@ -3,6 +3,7 @@ import TaskList from './components/TaskList.js';
 import './App.css';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import NewTaskForm from './components/NewTaskForm';
 
 // const INITIAL_TASKS = [
 //   {
@@ -27,7 +28,6 @@ const App = () => {
     axios
       .get(URL)
       .then((res) => {
-        console.log(res);
         const tasksAPIResCopy = res.data.map((task) => {
           return {
             id: task.id,
@@ -68,19 +68,38 @@ const App = () => {
   const deleteTask = (taskId) => {
     console.log('deleteTask Called');
     axios
-    .delete(`${URL}/${taskId}`)
-    .then(() => {
-    const newTaskList = [];
-    for (const task of taskList) {
-      if (task.id !== taskId) {
-        newTaskList.push(task);
-      }
-    }
-    setTaskList(newTaskList);
-  })
-    .catch((err) => {
-      console.log(err);
-    });
+      .delete(`${URL}/${taskId}`)
+      .then(() => {
+        const newTaskList = [];
+        for (const task of taskList) {
+          if (task.id !== taskId) {
+            newTaskList.push(task);
+          }
+        }
+        setTaskList(newTaskList);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const addTask = (newTaskInfo) => {
+    axios
+      .post(URL, newTaskInfo)
+      .then((response) => {
+        console.log(response);
+        const newTasks = [...taskList];
+        const newTaskJSON = {
+          ...newTaskInfo,
+          isComplete: false,
+          id: response.data.task.id,
+        };
+        newTasks.push(newTaskJSON);
+        setTaskList(newTasks);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -95,6 +114,9 @@ const App = () => {
             updateComplete={updateComplete}
             tasks={taskList}
           />
+        </div>
+        <div>
+          <NewTaskForm addTaskCallbackFunc={addTask} />
         </div>
       </main>
     </div>
