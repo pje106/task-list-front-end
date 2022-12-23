@@ -1,4 +1,9 @@
-label,
-input {
+label {
   display: inline-block;
+}
+form{
+  display: inline-block;
+  width: 50%;
+  align-items: center;
+  margin: auto;
 }
